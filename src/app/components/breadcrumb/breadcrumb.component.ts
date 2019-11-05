@@ -12,9 +12,9 @@ import {BreadcrumbService} from './breadcrumb.service';
         <ul [class.breadcrumb]="useBootstrap">
             <li *ngFor="let url of _urls; let last = last" [ngClass]="{'breadcrumb-item': useBootstrap, 'active': last}"> <!-- disable link of last item -->
                 <a role="button" *ngIf="!last && url == prefix" (click)="navigateTo('/')">{{url}}</a>
-                <a role="button" *ngIf="!last && url != prefix" (click)="navigateTo(url)">{{friendlyName(url)}}</a>
-                <span *ngIf="last">{{friendlyName(url)}}</span>
-                <span *ngIf="last && url == prefix">{{friendlyName('/')}}</span>
+                <a role="button" *ngIf="!last && url != prefix" (click)="navigateTo(url)">{{url | friendlyName}}</a>
+                <span *ngIf="last">{{url | friendlyName}}</span>
+                <span *ngIf="last && url == prefix">{{'/' | friendlyName}}</span>
             </li>
         </ul>
     `
@@ -45,7 +45,7 @@ export class BreadcrumbComponent implements OnInit, OnChanges {
 
         this._routerSubscription = this.router.events.subscribe((navigationEnd:NavigationEnd) => {
 
-           if (navigationEnd instanceof NavigationEnd) {
+            if (navigationEnd instanceof NavigationEnd) {
                 this._urls.length = 0; //Fastest way to clear out array
                 this.generateBreadcrumbTrail(navigationEnd.urlAfterRedirects ? navigationEnd.urlAfterRedirects : navigationEnd.url);
             }
@@ -76,10 +76,6 @@ export class BreadcrumbComponent implements OnInit, OnChanges {
 
     navigateTo(url: string): void {
         this.router.navigateByUrl(url);
-    }
-
-    friendlyName(url: string): string {
-        return !url ? '' : this.breadcrumbService.getFriendlyNameForRoute(url);
     }
 
     ngOnDestroy(): void {

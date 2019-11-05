@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { BreadcrumbComponent } from './breadcrumb.component';
 import { BreadcrumbService } from './breadcrumb.service';
+import { FriendlyNamePipe } from './friendly-name.pipe';
 
 export * from './breadcrumb.component';
 export * from './breadcrumb.service';
@@ -12,7 +13,8 @@ export * from './breadcrumb.service';
     CommonModule
   ],
   declarations: [
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    FriendlyNamePipe
   ],
   exports: [
     BreadcrumbComponent
